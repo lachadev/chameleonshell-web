@@ -12,6 +12,8 @@
     background-color: #000;
     font-family: monospace;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Navbar */
@@ -48,61 +50,74 @@
     width: 100%;
     height: 100%;
     z-index: -1; /* behind everything */
+    overflow: hidden;
   }
 
   #background-video iframe {
     width: 100%;
     height: 100%;
-    pointer-events: none; /* click-through */
+    pointer-events: none; /* click-through so navbar works */
   }
 
   /* Animation container */
   #animation-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    text-align: left;
+    flex: 1;
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;    /* center vertically */
+    margin-top: 50px;       /* space for navbar */
   }
 
   #animation {
     white-space: pre;
     font-size: 14px;
     line-height: 1.1em;
+    text-align: left;
     padding: 10px 20px;
-    background-color: rgba(0,0,0,0); /* fully transparent */
+    background-color: rgba(0,0,0,0.7);
     border-radius: 8px;
   }
 </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav>
   <a href="https://github.com/lachadev/chameleonshell" target="_blank">GitHub</a>
   <a href="https://discord.gg/GYjhcRTTvV" target="_blank">Discord</a>
 </nav>
 
+<!-- Background video -->
 <div id="background-video">
   <iframe id="bg-video-frame" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 
+<!-- Animation -->
 <div id="animation-container">
   <pre id="animation"></pre>
 </div>
-
 <audio id="sound" src="assets/sounds/sound.wav"></audio>
 
 <script>
-// YouTube live video IDs
-const youtubeVideos = ["jshwkG1ZpP8","xarzoBzFIug","WKGK_hYnlGE"];
-const selectedVideo = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
-document.getElementById("bg-video-frame").src =
-  `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
+// List of Sydney live YouTube video IDs
+// Replace these with actual live feed IDs you want
+const youtubeVideos = [
+  "jshwkG1ZpP8", // Sydney Live Cam 1
+  "xarzoBzFIug", // Sydney Live Cam 2
+  "WKGK_hYnlGE"  // Sydney Live Cam 3
+];
 
-// All animation frames (keep them all)
+// Pick a random video
+const selectedVideo = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
+const bgFrame = document.getElementById("bg-video-frame");
+bgFrame.src = `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
+
+// Chameleonshell frames
 const frames = [
-` .d8888b
+`
+
+
+ .d8888b
 d88P"
 888
 Y88b.
@@ -135,7 +150,7 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.
 d88P"   888 "88b    "88b888 "888 "88b
 888     888  888.d888888888  888  888
-Y88b.   888  888888  888  888  888
+Y88b.   888  888888  888888  888  888
  "Y8888P888  888"Y888888888  888  888
 
 made with ❤️ by lachameleon`,
@@ -145,7 +160,7 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b
 888     888  888.d888888888  888  88888888888
-Y88b.   888  888888  888  888  888Y8b.
+Y88b.   888  888888  888888  888  888Y8b.
  "Y8888P888  888"Y888888888  888  888 "Y8888
 
 made with ❤️ by lachameleon`,
@@ -155,55 +170,64 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
 888     888  888.d888888888  888  88888888888888
-Y88b.   888  888888  888  888Y8b.    888
- "Y8888P888  888"Y888888888  888  888 "Y8888 888`,
+Y88b.   888  888888  888888  888  888Y8b.    888
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888
+
+made with ❤️ by lachameleon`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
 888     888  888.d888888888  888  888888888888888888888
-Y88b.   888  888888  888  888Y8b.    888Y8b.
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888`,
+Y88b.   888  888888  888888  888  888Y8b.    888Y8b.
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888
+
+made with ❤️ by lachameleon`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b
 888     888  888.d888888888  888  8888888888888888888888888  888
-Y88b.   888  888888  888  888Y8b.    888Y8b.    Y88..88P
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"`,
+Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"
+
+made with ❤️ by lachameleon`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b. 88888b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b888 "88b
 888     888  888.d888888888  888  8888888888888888888888888  888888  888
-Y88b.   888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888`
+Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888
+
+made with ❤️ by lachameleon`
 ];
 
-// Rainbow colors
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
 
-// Render a frame with rainbow colors
 function rainbowText(text) {
-  return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("<br>");
+    return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("\n");
 }
 
-// Animate all frames sequentially
 let index = 0;
 function animate() {
-  animationEl.innerHTML = rainbowText(frames[index]);
-  index = (index + 1) % frames.length; // loop continuously
-  setTimeout(animate, 100);
+    animationEl.innerHTML = rainbowText(frames[index]);
+    index++;
+    if (index < frames.length) {
+        setTimeout(animate, 100);
+    }
 }
 
-// Play sound once (ignore errors)
-document.getElementById("sound").play().catch(() => {});
+// Play sound once
+const sound = document.getElementById("sound");
+sound.play().catch(() => console.log("Autoplay blocked"));
 
 animate();
 </script>
+
 </body>
 </html>

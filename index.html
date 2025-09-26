@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chameleonshell Animation</title>
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        text-align: center;
+    }
+    pre {
+        font-size: 14px;
+        line-height: 1.1em;
+        white-space: pre-wrap;
+    }
+</style>
+</head>
+<body>
+<pre id="animation"></pre>
+
+<audio id="sound" src="assets/sounds/sound.wav"></audio>
+
+<script>
+const frames = [
+`        888                                  888            
+        888                                  888                         
+        888                                  888                         
+ .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
+d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
+888     888  888.d888888888  888  88888888888888
+Y88b.   888  888888  888888  888  888Y8b.    888
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888
+      
+made with ❤️ by lachameleon`,
+
+`        888                                  888                      
+        888                                  888                         
+        888                                  888                         
+ .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b. 
+d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
+888     888  888.d888888888  888  888888888888888888888
+Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888 
+      
+made with ❤️ by lachameleon`,
+
+// Add more frames as needed, following your Python animation
+];
+
+const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"]; // rainbow colors
+
+let index = 0;
+const pre = document.getElementById("animation");
+
+function rainbowText(text) {
+    const lines = text.split("\n");
+    return lines.map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("\n");
+}
+
+function animate() {
+    pre.innerHTML = rainbowText(frames[index]);
+    index = (index + 1) % frames.length;
+    setTimeout(animate, 100); // change speed here
+}
+
+// Play sound
+const sound = document.getElementById("sound");
+sound.play().catch(e => console.log("Autoplay prevented:", e));
+
+animate();
+</script>
+</body>
+</html>

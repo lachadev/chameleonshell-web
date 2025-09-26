@@ -5,216 +5,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chameleonshell Animation</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    font-family: monospace;
-    overflow: hidden;
-  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    font-family: monospace;
+    overflow: hidden;
+  }
 
-  /* Navbar */
-  nav {
-    width: 100%;
-    background-color: #111;
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-  }
+  /* Navbar */
+  nav {
+    width: 100%;
+    background-color: #111;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
 
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
 
-  nav a:hover {
-    color: #FF69B4;
-  }
+  nav a:hover {
+    color: #FF69B4;
+  }
 
-  /* Background video */
-  #background-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
+  /* Background video */
+  #background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    /* Added to ensure the video displays if it's the only issue */
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+ 
+  /* Fallback: If video fails, ensure a fallback solid black background */
+  .video-failed #background-video {
+    display: none;
+  }
+  .video-failed body {
+    background: #000; /* Already set, but safe to confirm */
+  }
 
-  /* Animation container */
-  #animation-container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 50px; /* leave room for navbar */
-    box-sizing: border-box;
-  }
+  /* Animation container */
+  #animation-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px; /* leave room for navbar */
+    box-sizing: border-box;
+  }
 
-  #animation {
-    white-space: pre;
-    font-size: 14px;
-    line-height: 1.1em;
-    text-align: left;
-    padding: 10px 20px;
-    background-color: rgba(0,0,0,0.7);
-    border-radius: 8px;
-  }
+  #animation {
+    white-space: pre;
+    font-size: 14px;
+    line-height: 1.1em;
+    text-align: left;
+    padding: 10px 20px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 8px;
+  }
 </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav>
-  <a href="https://github.com/lachadev/chameleonshell" target="_blank">GitHub</a>
-  <a href="https://discord.gg/GYjhcRTTvV" target="_blank">Discord</a>
+  <a href="https://github.com/lachadev/chameleonshell" target="_blank">GitHub</a>
+  <a href="https://discord.gg/GYjhcRTTvV" target="_blank">Discord</a>
 </nav>
 
-<!-- Background video -->
 <video autoplay muted loop playsinline id="background-video">
-  <source src="assets/videos/lach.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+  <source src="assets/videos/lach.mp4" type="video/mp4">
+  Your browser does not support the video tag.
 </video>
 
-<!-- Animation -->
 <div id="animation-container">
-  <pre id="animation"></pre>
+  <pre id="animation"></pre>
 </div>
 
 <audio id="sound" src="assets/sounds/sound.wav"></audio>
 
 <script>
 const frames = [
-  `
-   .d8888b
-  d88P"
-  888
-  Y88b.
-   "Y8888P
+  `
+   .d8888b
+  d88P"
+  888
+  Y88b.
+   "Y8888P
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.
-  d88P"   888 "88b
-  888     888  888
-  Y88b.   888  888
-   "Y8888P888  888
+  made with ❤️ by lachameleon`,
+  `        888
+          888
+          888
+   .d8888b88888b.
+  d88P"   888 "88b
+  888     888  888
+  Y88b.   888  888
+   "Y8888P888  888
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b.
-  d88P"   888 "88b    "88b
-  888     888  888.d888888
-  Y88b.   888  888888  888
-   "Y8888P888  888"Y88888
+  made with ❤️ by lachameleon`,
+  `        888
+          888
+          888
+   .d8888b88888b.  8888b.
+  d88P"   888 "88b    "88b
+  888     888  888.d888888
+  Y88b.   888  888888  888
+   "Y8888P888  888"Y88888
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b. 88888b.d88b.
-  d88P"   888 "88b    "88b888 "888 "88b
-  888     888  888.d888888888  888  888
-  Y88b.   888  888888  888888  888  888
-   "Y8888P888  888"Y888888888  888  888
+  made with ❤️ by lachameleon`,
+  `        888
+          888
+          888
+   .d8888b88888b.  8888b. 88888b.d88b.
+  d88P"   888 "88b    "88b888 "888 "88b
+  888     888  888.d888888888  888  888
+  Y88b.   888  888888  888888  888  888
+   "Y8888P888  888"Y888888888  888  888
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b
-  888     888  888.d888888888  888  88888888888
-  Y88b.   888  888888  888888  888  888Y8b.
-   "Y8888P888  888"Y888888888  888  888 "Y8888
+  made with ❤️ by lachameleon`,
+  `        888
+          888
+          888
+   .d8888b88888b.  8888b. 88888b.d88b.  .d88b.
+  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b
+  888     888  888.d888888888  888  88888888888
+  Y88b.   888  888888  888888  888  888Y8b.
+   "Y8888P888  888"Y888888888  888  888 "Y8888
 
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
-  888     888  888.d888888888  888  88888888888888
-  Y88b.   888  888888  888888  888  888Y8b.    888
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888
+  made with ❤️ by lachameleon`,
+  `        888                                  888
+          888                                  888
+          888                                  888
+   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
+  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
+  888     888  888.d888888888  888  88888888888888
+  Y88b.   888  888888  888888  888  888Y8b.    888
+   "Y8888P888  888"Y888888888  888  888 "Y8888 888
 
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
-  888     888  888.d888888888  888  888888888888888888888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888
+  made with ❤️ by lachameleon`,
+  `        888                                  888
+          888                                  888
+          888                                  888
+   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.
+  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
+  888     888  888.d888888888  888  888888888888888888888
+  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.
+   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888
 
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b
-  888     888  888.d888888888  888  8888888888888888888888888  888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"
+  made with ❤️ by lachameleon`,
+  `        888                                  888
+          888                                  888
+          888                                  888
+   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b.
+  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b
+  888     888  888.d888888888  888  8888888888888888888888888  888
+  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P
+   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"
 
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b. 88888b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b888 "88b
-  888     888  888.d888888888  888  8888888888888888888888888  888888  888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888
+  made with ❤️ by lachameleon`,
+  `        888                                  888
+          888                                  888
+          888                                  888
+   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b. 88888b.
+  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b888 "88b
+  888     888  888.d888888888  888  8888888888888888888888888  888888  888
+  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
+   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888
 
-  made with ❤️ by lachameleon`
-  ];
+  made with ❤️ by lachameleon`
+  ];
 
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
+const videoEl = document.getElementById("background-video");
 
+
+// --- Video Loading and Error Handling ---
+videoEl.addEventListener('error', function() {
+    console.error("Video failed to load. Check file path: assets/videos/lach.mp4");
+    // Add a class to hide the video and ensure a solid black background
+    document.body.classList.add('video-failed');
+});
+
+// A safety mechanism for autoplay policies
+// If the video is fully loaded, attempt to play it (in case a browser blocked autoplay)
+videoEl.addEventListener('loadeddata', function() {
+    // The muted attribute is key here, making this call likely to succeed
+    videoEl.play().catch(e => {
+        console.warn("Video play was still blocked by the browser. It should work because it's muted, check browser console for details.", e);
+    });
+});
+
+
+// --- ASCII Animation Logic ---
 function rainbowText(text) {
-    return text.split("\n").map((line, i) =>
-        `<span style="color:${colors[i % colors.length]}">${line}</span>`
-    ).join("\n");
+    return text.split("\n").map((line, i) =>
+        `<span style="color:${colors[i % colors.length]}">${line}</span>`
+    ).join("\n");
 }
 
 let index = 0;
 function animate() {
-    animationEl.innerHTML = rainbowText(frames[index]);
-    index++;
-    if (index < frames.length) {
-        setTimeout(animate, 100);
-    }
+    animationEl.innerHTML = rainbowText(frames[index]);
+    index++;
+    if (index < frames.length) {
+        setTimeout(animate, 100);
+    }
 }
 
-// Animate frames immediately
+// Start animation
 animate();
 
-// Play sound after first user interaction
+
+// --- Sound Playback Fix ---
+// Sound is explicitly designed to only play after a user action (click/key),
+// as required by all modern web browsers.
 const sound = document.getElementById("sound");
 function playSoundOnce() {
-    if (sound.paused) {
-        sound.play().catch(() => console.log("Sound play blocked"));
-    }
-    document.removeEventListener("click", playSoundOnce);
-    document.removeEventListener("keydown", playSoundOnce);
+    // Check if sound is paused or ended before attempting to play
+    if (sound.paused || sound.ended) {
+        sound.play().catch(() => console.log("Sound play blocked (expected before user interaction)"));
+    }
+    // Remove the listeners after the first successful attempt
+    document.removeEventListener("click", playSoundOnce);
+    document.removeEventListener("keydown", playSoundOnce);
 }
 document.addEventListener("click", playSoundOnce);
 document.addEventListener("keydown", playSoundOnce);

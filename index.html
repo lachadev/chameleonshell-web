@@ -53,12 +53,12 @@
   #background-video iframe {
     width: 100%;
     height: 100%;
-    pointer-events: none; /* click-through so navbar works */
+    pointer-events: none; /* click-through */
   }
 
   /* Animation container */
   #animation-container {
-    position: absolute; /* don't affect layout */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -71,7 +71,7 @@
     line-height: 1.1em;
     text-align: left;
     padding: 10px 20px;
-    background-color: rgba(0,0,0,0.5); /* slightly transparent */
+    background-color: rgba(0,0,0,0.0); /* fully transparent now */
     border-radius: 8px;
   }
 </style>
@@ -97,17 +97,18 @@
 
 <script>
 // YouTube live video IDs
-const youtubeVideos = ["jshwkG1ZpP8","xarzoBzFIug","WKGK_hYnlGE"];
+const youtubeVideos = [
+  "jshwkG1ZpP8",
+  "xarzoBzFIug",
+  "WKGK_hYnlGE"
+];
 const selectedVideo = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
 document.getElementById("bg-video-frame").src =
   `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
 
-// Frames
+// All your frames (kept intact)
 const frames = [
-`
-
-
- .d8888b
+` .d8888b
 d88P"
 888
 Y88b.
@@ -160,41 +161,35 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
 888     888  888.d888888888  888  88888888888888
-Y88b.   888  888888  888888  888  888Y8b.    888
- "Y8888P888  888"Y888888888  888  888 "Y8888 888
-
-made with ❤️ by lachameleon`,
+Y88b.   888  888888  888  888Y8b.    888
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
 888     888  888.d888888888  888  888888888888888888888
-Y88b.   888  888888  888888  888  888Y8b.    888Y8b.
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888
-
-made with ❤️ by lachameleon`,
+Y88b.   888  888888  888  888Y8b.    888Y8b.
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b
 888     888  888.d888888888  888  8888888888888888888888888  888
-Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"
-
-made with ❤️ by lachameleon`,
+Y88b.   888  888888  888  888Y8b.    888Y8b.    Y88..88P
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"`,
 `        888                                  888
         888                                  888
         888                                  888
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b. 88888b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b888 "88b
 888     888  888.d888888888  888  8888888888888888888888888  888888  888
-Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
- "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888
-
-made with ❤️ by lachameleon`
+Y88b.   888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
+ "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888`
 ];
+
+// Rainbow animation
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
 
@@ -212,11 +207,9 @@ function animate() {
 }
 
 // Play sound once
-const sound = document.getElementById("sound");
-sound.play().catch(() => console.log("Autoplay blocked"));
+document.getElementById("sound").play().catch(() => console.log("Autoplay blocked"));
 
 animate();
 </script>
-
 </body>
 </html>

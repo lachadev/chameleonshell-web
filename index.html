@@ -12,8 +12,6 @@
     background-color: #000;
     font-family: monospace;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
   }
 
   /* Navbar */
@@ -50,7 +48,6 @@
     width: 100%;
     height: 100%;
     z-index: -1; /* behind everything */
-    overflow: hidden;
   }
 
   #background-video iframe {
@@ -61,11 +58,11 @@
 
   /* Animation container */
   #animation-container {
-    flex: 1;
-    display: flex;
-    justify-content: center; /* center horizontally */
-    align-items: center;    /* center vertically */
-    margin-top: 50px;       /* space for navbar */
+    position: absolute; /* don't affect layout */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
   }
 
   #animation {
@@ -74,7 +71,7 @@
     line-height: 1.1em;
     text-align: left;
     padding: 10px 20px;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.5); /* slightly transparent */
     border-radius: 8px;
   }
 </style>
@@ -99,20 +96,13 @@
 <audio id="sound" src="assets/sounds/sound.wav"></audio>
 
 <script>
-// List of Sydney live YouTube video IDs
-// Replace these with actual live feed IDs you want
-const youtubeVideos = [
-  "jshwkG1ZpP8", // Sydney Live Cam 1
-  "xarzoBzFIug", // Sydney Live Cam 2
-  "WKGK_hYnlGE"  // Sydney Live Cam 3
-];
-
-// Pick a random video
+// YouTube live video IDs
+const youtubeVideos = ["jshwkG1ZpP8","xarzoBzFIug","WKGK_hYnlGE"];
 const selectedVideo = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
-const bgFrame = document.getElementById("bg-video-frame");
-bgFrame.src = `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
+document.getElementById("bg-video-frame").src =
+  `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
 
-// Chameleonshell frames
+// Frames
 const frames = [
 `
 
@@ -205,21 +195,20 @@ Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
 
 made with ❤️ by lachameleon`
 ];
-
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
 
 function rainbowText(text) {
-    return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("\n");
+  return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("\n");
 }
 
 let index = 0;
 function animate() {
-    animationEl.innerHTML = rainbowText(frames[index]);
-    index++;
-    if (index < frames.length) {
-        setTimeout(animate, 100);
-    }
+  animationEl.innerHTML = rainbowText(frames[index]);
+  index++;
+  if (index < frames.length) {
+    setTimeout(animate, 100);
+  }
 }
 
 // Play sound once

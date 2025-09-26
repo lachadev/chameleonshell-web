@@ -63,50 +63,44 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+    text-align: left;
   }
 
   #animation {
     white-space: pre;
     font-size: 14px;
     line-height: 1.1em;
-    text-align: left;
     padding: 10px 20px;
-    background-color: rgba(0,0,0,0.0); /* fully transparent now */
+    background-color: rgba(0,0,0,0); /* fully transparent */
     border-radius: 8px;
   }
 </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav>
   <a href="https://github.com/lachadev/chameleonshell" target="_blank">GitHub</a>
   <a href="https://discord.gg/GYjhcRTTvV" target="_blank">Discord</a>
 </nav>
 
-<!-- Background video -->
 <div id="background-video">
   <iframe id="bg-video-frame" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 
-<!-- Animation -->
 <div id="animation-container">
   <pre id="animation"></pre>
 </div>
+
 <audio id="sound" src="assets/sounds/sound.wav"></audio>
 
 <script>
 // YouTube live video IDs
-const youtubeVideos = [
-  "jshwkG1ZpP8",
-  "xarzoBzFIug",
-  "WKGK_hYnlGE"
-];
+const youtubeVideos = ["jshwkG1ZpP8","xarzoBzFIug","WKGK_hYnlGE"];
 const selectedVideo = youtubeVideos[Math.floor(Math.random() * youtubeVideos.length)];
 document.getElementById("bg-video-frame").src =
   `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&mute=1&controls=0&loop=1&playlist=${selectedVideo}&modestbranding=1&rel=0`;
 
-// All your frames (kept intact)
+// All animation frames (keep them all)
 const frames = [
 ` .d8888b
 d88P"
@@ -141,7 +135,7 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.
 d88P"   888 "88b    "88b888 "888 "88b
 888     888  888.d888888888  888  888
-Y88b.   888  888888  888888  888  888
+Y88b.   888  888888  888  888  888
  "Y8888P888  888"Y888888888  888  888
 
 made with ❤️ by lachameleon`,
@@ -151,7 +145,7 @@ made with ❤️ by lachameleon`,
  .d8888b88888b.  8888b. 88888b.d88b.  .d88b.
 d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b
 888     888  888.d888888888  888  88888888888
-Y88b.   888  888888  888888  888  888Y8b.
+Y88b.   888  888888  888  888  888Y8b.
  "Y8888P888  888"Y888888888  888  888 "Y8888
 
 made with ❤️ by lachameleon`,
@@ -189,25 +183,25 @@ Y88b.   888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
  "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888`
 ];
 
-// Rainbow animation
+// Rainbow colors
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
 
+// Render a frame with rainbow colors
 function rainbowText(text) {
-  return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("\n");
+  return text.split("\n").map((line, i) => `<span style="color:${colors[i % colors.length]}">${line}</span>`).join("<br>");
 }
 
+// Animate all frames sequentially
 let index = 0;
 function animate() {
   animationEl.innerHTML = rainbowText(frames[index]);
-  index++;
-  if (index < frames.length) {
-    setTimeout(animate, 100);
-  }
+  index = (index + 1) % frames.length; // loop continuously
+  setTimeout(animate, 100);
 }
 
-// Play sound once
-document.getElementById("sound").play().catch(() => console.log("Autoplay blocked"));
+// Play sound once (ignore errors)
+document.getElementById("sound").play().catch(() => {});
 
 animate();
 </script>

@@ -83,7 +83,7 @@
 
 <!-- Background video -->
 <video autoplay muted loop playsinline id="background-video">
-  <source src="/assets/videos/lach.mp4" type="video/mp4">
+  <source src="assets/videos/lach.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -92,7 +92,7 @@
   <pre id="animation"></pre>
 </div>
 
-<audio id="sound" src="/assets/sounds/sound.wav"></audio>
+<audio id="sound" src="assets/sounds/sound.wav"></audio>
 
 <script>
 const frames = [
@@ -204,11 +204,20 @@ function animate() {
     }
 }
 
-// Play sound once
-const sound = document.getElementById("sound");
-sound.play().catch(() => console.log("Autoplay blocked"));
-
+// Animate frames immediately
 animate();
+
+// Play sound after first user interaction
+const sound = document.getElementById("sound");
+function playSoundOnce() {
+    if (sound.paused) {
+        sound.play().catch(() => console.log("Sound play blocked"));
+    }
+    document.removeEventListener("click", playSoundOnce);
+    document.removeEventListener("keydown", playSoundOnce);
+}
+document.addEventListener("click", playSoundOnce);
+document.addEventListener("keydown", playSoundOnce);
 </script>
 
 </body>

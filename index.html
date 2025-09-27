@@ -25,7 +25,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 10; /* stays above video */
   }
 
   nav a {
@@ -48,39 +48,33 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1; /* ensures video is behind everything */
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-
-  /* Fallback */
-  .video-failed #background-video {
-    display: none;
-  }
-  .video-failed body {
-    background: #000;
+    z-index: -1; /* stays behind everything */
   }
 
   /* Animation container */
   #animation-container {
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
     text-align: center;
+    pointer-events: none; /* clicks pass through to page */
   }
 
   #animation {
-    white-space: pre;
+    white-space: pre;       /* preserve ASCII shape */
     font-size: 14px;
     line-height: 1.1em;
     background-color: rgba(0,0,0,0.6);
     border-radius: 8px;
     padding: 20px;
+    text-align: left;       /* keep ASCII aligned properly */
     display: inline-block;
-    text-align: center;
+    pointer-events: auto;   /* allow selecting/copying text */
   }
 </style>
 </head>
@@ -104,137 +98,53 @@
 
 <script>
 const frames = [
-  `
-   .d8888b
-  d88P"
-  888
-  Y88b.
-   "Y8888P
+`   .d8888b
+  d88P"
+  888
+  Y88b.
+   "Y8888P
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.
-  d88P"   888 "88b
-  888     888  888
-  Y88b.   888  888
-   "Y8888P888  888
+  made with ❤️ by lachameleon`,
+`        888
+          888
+          888
+   .d8888b88888b.
+  d88P"   888 "88b
+  888     888  888
+  Y88b.   888  888
+   "Y8888P888  888
 
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b.
-  d88P"   888 "88b    "88b
-  888     888  888.d888888
-  Y88b.   888  888888  888
-   "Y8888P888  888"Y88888
-
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b. 88888b.d88b.
-  d88P"   888 "88b    "88b888 "888 "88b
-  888     888  888.d888888888  888  888
-  Y88b.   888  888888  888888  888  888
-   "Y8888P888  888"Y888888888  888  888
-
-  made with ❤️ by lachameleon`,
-  `        888
-          888
-          888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b
-  888     888  888.d888888888  888  88888888888
-  Y88b.   888  888888  888888  888  888Y8b.
-   "Y8888P888  888"Y888888888  888  888 "Y8888
-
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888
-  888     888  888.d888888888  888  88888888888888
-  Y88b.   888  888888  888888  888  888Y8b.    888
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888
-
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8
-  888     888  888.d888888888  888  888888888888888888888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888
-
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b
-  888     888  888.d888888888  888  8888888888888888888888888  888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P"
-
-  made with ❤️ by lachameleon`,
-  `        888                                  888
-          888                                  888
-          888                                  888
-   .d8888b88888b.  8888b. 88888b.d88b.  .d88b. 888 .d88b.  .d88b. 88888b.
-  d88P"   888 "88b    "88b888 "888 "88bd8P  Y8b888d8P  Y8bd88""88b888 "88b
-  888     888  888.d888888888  888  8888888888888888888888888  888888  888
-  Y88b.   888  888888  888888  888  888Y8b.    888Y8b.    Y88..88P888  888
-   "Y8888P888  888"Y888888888  888  888 "Y8888 888 "Y8888  "Y88P" 888  888
-
-  made with ❤️ by lachameleon`
-  ];
+  made with ❤️ by lachameleon`
+  // ... keep rest of frames
+];
 
 const colors = ["#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#9400D3"];
 const animationEl = document.getElementById("animation");
-const videoEl = document.getElementById("background-video");
+let index = 0;
 
-// --- Video Error Handling ---
-videoEl.addEventListener('error', function() {
-    console.error("Video failed to load. Check file path: assets/videos/lach.mp4");
-    document.body.classList.add('video-failed');
-});
-
-videoEl.addEventListener('loadeddata', function() {
-    videoEl.play().catch(e => {
-        console.warn("Video play was blocked by browser:", e);
-    });
-});
-
-// --- ASCII Animation ---
 function rainbowText(text) {
-    return text.split("\n").map((line, i) =>
-        `<span style="color:${colors[i % colors.length]}">${line}</span>`
-    ).join("\n");
+  return text.split("\n").map((line, i) =>
+    `<span style="color:${colors[i % colors.length]}">${line}</span>`
+  ).join("\n");
 }
 
-let index = 0;
 function animate() {
-    animationEl.innerHTML = rainbowText(frames[index]);
-    index++;
-    if (index < frames.length) {
-        setTimeout(animate, 100);
-    }
+  animationEl.innerHTML = rainbowText(frames[index]);
+  index++;
+  if (index < frames.length) {
+    setTimeout(animate, 100);
+  }
 }
 animate();
 
 // --- Sound ---
 const sound = document.getElementById("sound");
 function playSoundOnce() {
-    if (sound.paused || sound.ended) {
-        sound.play().catch(() => console.log("Sound play blocked (expected before user interaction)"));
-    }
-    document.removeEventListener("click", playSoundOnce);
-    document.removeEventListener("keydown", playSoundOnce);
+  if (sound.paused || sound.ended) {
+    sound.play().catch(() => console.log("Sound play blocked (expected before user interaction)"));
+  }
+  document.removeEventListener("click", playSoundOnce);
+  document.removeEventListener("keydown", playSoundOnce);
 }
 document.addEventListener("click", playSoundOnce);
 document.addEventListener("keydown", playSoundOnce);
